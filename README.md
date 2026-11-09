@@ -10,6 +10,7 @@ Frontend repo: [https://github.com/youssefoubrik/InternHub-Front-End](https://gi
 * 📄 **Internship Management**: Post, search, apply, and track status
 * 📬 **Email Notifications**: Application updates and account actions
 * 📁 **File Upload**: CV/document support
+* 🗄️ **Supabase Storage**: Authenticated backend uploads with public file URLs saved alongside profiles and records
 * 🔍 **Search & Filter**: Advanced query and pagination
 * 🛠️ **Admin Tools:** Dashboard with platform stats, user moderation, and flag verification
 * 📖 **Swagger Docs**: Auto-generated API docs
@@ -85,12 +86,15 @@ docker-compose up -d
 | `DATABASE_URL`      | PostgreSQL connection URL    | `jdbc:postgresql://localhost:5432/postgres` |
 | `DATABASE_USERNAME` | Database username            | `postgres`                                  |
 | `DATABASE_PASSWORD` | Database password            | `changemeinprod!`                           |
+| `JPA_DDL_AUTO`       | Hibernate schema behavior    | `update`                                    |
 | `JWT_SECRET`        | JWT signing secret (256-bit) | Required for production                     |
 | `MAIL_HOST`         | SMTP server host             | `smtp.gmail.com`                            |
 | `MAIL_PORT`         | SMTP server port             | `587`                                       |
 | `MAIL_USERNAME`     | Email username               | Required                                    |
 | `MAIL_PASSWORD`     | Email app password           | Required                                    |
 | `FRONTEND_URL`      | Frontend application URL     | `http://localhost:3000`                     |
+| `SUPABASE_URL`      | Supabase project URL         | Required for storage                         |
+| `SUPABASE_KEY`      | Supabase secret API key      | Required for storage; server only            |
 
 ### Database Access via Adminer
 
@@ -107,6 +111,12 @@ docker-compose up -d
 1. Enable 2-Factor Authentication on your Gmail account
 2. Generate an App Password: Google Account → Security → App passwords
 3. Use the app password as `MAIL_PASSWORD` in your `.env` file
+
+### Supabase Storage
+
+Set `SUPABASE_URL` and the new `sb_secret_...` API key in the backend `.env` (or the backend host's secret environment settings). Never add the secret key to frontend variables or commit it. The application uploads to the `images` bucket under a per-user folder and returns a public object URL. Keep the bucket public if those URLs should load without authentication. Storage uploads support JPEG, PNG, WebP, GIF, and PDF files up to 10 MB.
+
+The frontend calls `POST /api/v1/storage/images` with a multipart `file` field and its InternHub bearer token. The response is `{ "publicUrl": "..." }`. To delete an uploaded file, it calls `DELETE /api/v1/storage/images?publicUrl=...`; the backend only deletes URLs inside the caller's own folder. Older files uploaded directly by the former frontend flow are left in storage because their object paths do not include the new per-user ownership folder.
 
 ### JWT Secret Generation
 

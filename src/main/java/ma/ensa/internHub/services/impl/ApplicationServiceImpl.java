@@ -22,6 +22,8 @@ import ma.ensa.internHub.services.EmailNotificationService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.transaction.annotation.Transactional;
 
 import ma.ensa.internHub.exception.BadRequestException;
 import ma.ensa.internHub.exception.ResourceNotFoundException;
@@ -110,6 +112,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    @Transactional
     public ApplicationResponse createApplication(ApplicationRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
@@ -130,7 +133,12 @@ public class ApplicationServiceImpl implements ApplicationService {
         application.setStudent(student);
         application.setInternship(internship);
 
-        Application saved = applicationRepository.save(application);
+        Application saved;
+        try {
+            saved = applicationRepository.saveAndFlush(application);
+        } catch (DataIntegrityViolationException exception) {
+            throw new BadRequestException("Student already applied to this internship");
+        }
 
         ApplicationResponse response = applicationMapper.toResponse(saved);
         response.setStudentResponse(studentMapper.toResponse(saved.getStudent()));

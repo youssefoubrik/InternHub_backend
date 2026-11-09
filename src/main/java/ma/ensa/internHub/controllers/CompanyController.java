@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
+import jakarta.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
 import ma.ensa.internHub.domain.dto.request.CompanyUpdateRequest;
@@ -50,7 +51,7 @@ public class CompanyController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CompanyResponse> updateCompany(@PathVariable UUID id,
-            @RequestBody CompanyUpdateRequest request) {
+            @Valid @RequestBody CompanyUpdateRequest request) {
         return ResponseEntity.ok(companyService.updateCompany(id, request));
     }
 

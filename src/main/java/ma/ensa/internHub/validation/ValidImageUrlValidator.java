@@ -3,8 +3,6 @@ package ma.ensa.internHub.validation;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.Arrays;
 
 public class ValidImageUrlValidator implements ConstraintValidator<ValidImageUrl, String> {
@@ -23,23 +21,16 @@ public class ValidImageUrlValidator implements ConstraintValidator<ValidImageUrl
             return true;
         }
         try {
-            URL url = URI.create(urlString).toURL();
-            String lowercaseUrl = urlString.toLowerCase();
-
-            boolean hasValidExtension = Arrays.stream(allowedExtensions)
-                    .anyMatch(ext -> lowercaseUrl.endsWith(ext.toLowerCase()));
-
-            if (!hasValidExtension) {
+            URI uri = URI.create(urlString);
+            String scheme = uri.getScheme();
+            if (uri.getHost() == null || !("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme))) {
                 return false;
             }
+            String path = uri.getPath().toLowerCase();
 
-            URLConnection conn = url.openConnection();
-            String contentType = conn.getContentType();
-            long contentLength = conn.getContentLengthLong();
-
-            return contentType != null &&
-                    contentType.startsWith("image/") &&
-                    contentLength > 0;
+            boolean hasValidExtension = Arrays.stream(allowedExtensions)
+                    .anyMatch(extension -> path.endsWith(extension.toLowerCase()));
+            return hasValidExtension;
 
         } catch (Exception e) {
             return false;

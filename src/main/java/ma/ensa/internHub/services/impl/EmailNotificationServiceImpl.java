@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.web.util.HtmlUtils;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -128,5 +129,30 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
                 "confirmation-code",
                 templateModel,
                 null);
+    }
+
+    @Override
+    public void sendContactMessage(String email, String subject, String message) {
+        try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+            helper.setFrom(sender);
+            helper.setTo(sender);
+            helper.setReplyTo(email);
+            helper.setSubject("InternHub contact: " + subject.trim());
+
+            String escapedMessage = HtmlUtils.htmlEscape(message.trim())
+                    .replace("\r\n", "\n")
+                    .replace("\n", "<br>");
+            String html = "<h2>New contact form message</h2>"
+                    + "<p><strong>From:</strong> " + HtmlUtils.htmlEscape(email.trim()) + "</p>"
+                    + "<p><strong>Subject:</strong> " + HtmlUtils.htmlEscape(subject.trim()) + "</p>"
+                    + "<p>" + escapedMessage + "</p>";
+            helper.setText(html, true);
+            javaMailSender.send(mimeMessage);
+        } catch (Exception e) {
+            log.error("Failed to send contact message from {}: {}", email, e.getMessage());
+            throw new EmailSendingException("Failed to send contact message");
+        }
     }
 }
