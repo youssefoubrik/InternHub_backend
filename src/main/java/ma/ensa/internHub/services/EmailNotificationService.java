@@ -13,4 +13,6 @@ public interface EmailNotificationService {
 
         void sendEmailConfirmationCode(String email, String username, String verificationCode);
 
+        void sendContactMessage(String email, String subject, String message);
+
 }

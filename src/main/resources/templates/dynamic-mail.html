@@ -1,30 +1,55 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</head>
-<body style="background-color: white; margin: 0; font-family: sans-serif;">
-  <div style="max-width: 32rem; margin: 0 auto; background-color: white; ">
-    
-    <div style="text-align: center;">
-      <img src="" alt="InternHub Logo" style="height: 5rem; display: block; margin: 0 auto;" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body style="background-color: white; margin: 0; font-family: sans-serif">
+    <div style="max-width: 32rem; margin: 0 auto; background-color: white">
+      <div style="text-align: center">
+        <img
+          src="https://exnyabuorfcuxbecztkz.supabase.co/storage/v1/object/public/images/logo.png"
+          alt="InternHub Logo"
+          style="height: 5rem; display: block; margin: 0 auto"
+        />
+      </div>
+
+      <div
+        style="
+          color: #ff5a31;
+          text-align: center;
+          padding: 1rem;
+          font-size: 1.25rem;
+          font-weight: 600;
+          border-radius: 0.5rem;
+        "
+      >
+        <span th:text="${subject}"></span>
+      </div>
+
+      <div style="margin-top: 1.5rem; color: #374151; font-size: 1rem">
+        <p>Dear <strong th:text="${recepientName}"></strong>,</p>
+        <div th:utext="${body}"></div>
+        <p style="margin-top: 0.5rem">
+          If you have any questions, feel free to reach out to our team at
+          <a
+            href="mailto:internhub@gmail.com"
+            style="color: #3b82f6; text-decoration: none"
+            >internhub@gmail.com</a
+          >.
+        </p>
+      </div>
+
+      <div
+        style="
+          text-align: center;
+          margin-top: 1.5rem;
+          font-size: 0.875rem;
+          color: #6b7280;
+        "
+      >
+        &copy; 2025 InternHub. All rights reserved.
+      </div>
     </div>
-    
-    <div style="color: #ff5a31; text-align: center; padding: 1rem; font-size: 1.25rem; font-weight: 600; border-radius: 0.5rem;">
-      <span th:text="${subject}"></span>
-    </div>
-    
-    <div style="margin-top: 1.5rem; color: #374151; font-size: 1rem;">
-      <p>Dear <strong th:text="${recepientName}"></strong>,</p>
-      <div th:utext="${body}"></div>
-      <p style="margin-top: 0.5rem;">If you have any questions, feel free to reach out to our team at <a href="mailto:internhub@gmail.com" style="color: #3b82f6; text-decoration: none;">internhub@gmail.com</a>.</p>
-    </div>
-    
-    <div style="text-align: center; margin-top: 1.5rem; font-size: 0.875rem; color: #6b7280;">
-      &copy; 2025 InternHub. All rights reserved.
-    </div>
-    
-  </div>
-</body>
+  </body>
 </html>

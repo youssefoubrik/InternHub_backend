@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 
 import lombok.RequiredArgsConstructor;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "ma.ensa.internHub")
 @RequiredArgsConstructor
 public class PfaProjectApplication {
 

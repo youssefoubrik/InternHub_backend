@@ -3,7 +3,6 @@ package ma.ensa.internHub.domain.dto.request;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,8 +24,7 @@ public class ExperienceRequest {
     @ValidDate(message = "End date must be in MMM-yyyy format or 'PRESENT'")
     private String endDate;
 
-    @Column(columnDefinition = "TEXT", length = 1000) // added
-    @Size(min = 50, max = 1000, message = "Description must be between 25 and 1000 characters") // added
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @NotBlank(message = "Company name is required")

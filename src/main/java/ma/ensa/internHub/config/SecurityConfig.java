@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.beans.factory.annotation.Value;
 
 import ma.ensa.internHub.domain.enums.Role;
 import ma.ensa.internHub.repositories.UserRepository;
@@ -25,6 +26,8 @@ import ma.ensa.internHub.services.AuthService;
 
 @Configuration
 public class SecurityConfig {
+    @Value("${app.frontend.url:http://localhost:3000}")
+    private String frontendUrl;
     private static final String[] PUBLIC_SWAGGER_ENDPOINTS = {
             "/swagger-ui/**",
             "/v3/api-docs/**",
@@ -48,7 +51,7 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(request -> {
                     var corsConfiguration = new CorsConfiguration();
-                    corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000"));
+                    corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", frontendUrl));
                     corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     corsConfiguration.setAllowedHeaders(List.of("*"));
                     corsConfiguration.setAllowCredentials(true);
@@ -57,6 +60,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/contact").permitAll()
                         .requestMatchers(PUBLIC_SWAGGER_ENDPOINTS).permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/students/count").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/students/count-by-month").permitAll()
@@ -90,6 +94,8 @@ public class SecurityConfig {
                         // Company endpoints
                         .requestMatchers(HttpMethod.POST, "/api/v1/internships").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/internships/{id}").hasRole(Role.COMPANY.name())
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/internships/{id}/close").hasRole(Role.COMPANY.name())
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/internships/{id}/open").hasRole(Role.COMPANY.name())
                         .requestMatchers(HttpMethod.PUT, "/api/v1/companies/{id}").hasRole(Role.COMPANY.name())
                         .requestMatchers(HttpMethod.GET, "/api/v1/applications/company/{companyId}")
                         .hasRole(Role.COMPANY.name())
@@ -101,7 +107,8 @@ public class SecurityConfig {
                         .hasRole(Role.COMPANY.name())
 
                         // Flag endpoints
-                        .requestMatchers(HttpMethod.POST, "/api/v1/flagged-companies").hasRole(Role.STUDENT.name())
+                        .requestMatchers(HttpMethod.POST, "/api/v1/flagged-companies")
+                        .hasAnyRole(Role.STUDENT.name(), Role.COMPANY.name())
                         .requestMatchers(HttpMethod.POST, "/api/v1/flagged-students").hasRole(Role.COMPANY.name())
 
                         // Ensure all other endpoints require authentication

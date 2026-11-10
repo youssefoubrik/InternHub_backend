@@ -26,5 +26,7 @@ public class CompanyFlagResponse {
     private String studentLastName;
     private String companyEmail;
     private String studentEmail;
+    private String reporterCompanyId;
+    private String reporterCompanyName;
     private List<String> screenshots;
 }

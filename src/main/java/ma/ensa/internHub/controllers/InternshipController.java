@@ -86,4 +86,14 @@ public class InternshipController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}/close")
+    public ResponseEntity<InternshipResponse> closeInternship(@PathVariable UUID id) {
+        return ResponseEntity.ok(internshipService.setInternshipClosed(id, true));
+    }
+
+    @PutMapping("/{id}/open")
+    public ResponseEntity<InternshipResponse> openInternship(@PathVariable UUID id) {
+        return ResponseEntity.ok(internshipService.setInternshipClosed(id, false));
+    }
+
 }

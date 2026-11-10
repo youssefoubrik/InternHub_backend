@@ -31,7 +31,8 @@ public class CompanyUpdateRequest {
     @Size(min = 10, max = 500, message = "Description must be between 10 and 500 characters")
     private String description;
 
-    @Pattern(regexp = "^\\d{15}$", message = "ICE must be exactly 15 digits")
+    @Pattern(regexp = "^(?:\\s*|\\d{15})$", message = "ICE must be exactly 15 digits")
+    @NotBlank(message = "ICE is required")
     private String ice;
 
     private MapLocation location;

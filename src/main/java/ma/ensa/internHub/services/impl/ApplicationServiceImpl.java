@@ -22,6 +22,8 @@ import ma.ensa.internHub.services.EmailNotificationService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.transaction.annotation.Transactional;
 
 import ma.ensa.internHub.exception.BadRequestException;
 import ma.ensa.internHub.exception.ResourceNotFoundException;
@@ -110,6 +112,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    @Transactional
     public ApplicationResponse createApplication(ApplicationRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
@@ -130,7 +133,12 @@ public class ApplicationServiceImpl implements ApplicationService {
         application.setStudent(student);
         application.setInternship(internship);
 
-        Application saved = applicationRepository.save(application);
+        Application saved;
+        try {
+            saved = applicationRepository.saveAndFlush(application);
+        } catch (DataIntegrityViolationException exception) {
+            throw new BadRequestException("Student already applied to this internship");
+        }
 
         ApplicationResponse response = applicationMapper.toResponse(saved);
         response.setStudentResponse(studentMapper.toResponse(saved.getStudent()));
@@ -146,7 +154,6 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (application.getStatus().equals(ApplicationStatus.ACCEPTED)) {
             throw new BadRequestException("Application is already accepted");
         }
-
         if (application.getStatus().equals(ApplicationStatus.REJECTED)) {
             throw new BadRequestException("Application is already rejected");
         }
@@ -168,10 +175,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     public void rejectApplication(UUID id, NotificationRequest request) {
         Application application = applicationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Application not found with id: " + id));
-
-        if (application.getStatus().equals(ApplicationStatus.ACCEPTED)) {
-            throw new BadRequestException("Application is already accepted");
-        }
 
         if (application.getStatus().equals(ApplicationStatus.REJECTED)) {
             throw new BadRequestException("Application is already rejected");
