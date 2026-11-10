@@ -46,8 +46,8 @@ import ma.ensa.internHub.repositories.StudentRepository;
 @Profile("dev")
 @RequiredArgsConstructor
 public class DevelopmentDataSeeder implements CommandLineRunner {
-    private static final String ADMIN_EMAIL = "elbanouri.achraf0@gmail.com";
-    private static final String ADMIN_PASSWORD = "elbanouri.achraf0";
+    private static final String ADMIN_EMAIL = "admin@gmail.com";
+    private static final String ADMIN_PASSWORD = "adminadmin";
 
     private final AdminRepository adminRepository;
     private final StudentRepository studentRepository;

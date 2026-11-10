@@ -5,29 +5,30 @@ Frontend repo: [https://github.com/youssefoubrik/InternHub-Front-End](https://gi
 
 ## 🚀 Features
 
-* 🔐 **Authentication**: JWT-based, email verification, password reset
-* 👥 **User Roles**: Students, Companies, Admins
-* 📄 **Internship Management**: Post, search, apply, and track status
-* 📬 **Email Notifications**: Application updates and account actions
-* 📁 **File Upload**: CV/document support
-* 🗄️ **Supabase Storage**: Authenticated backend uploads with public file URLs saved alongside profiles and records
-* 🔍 **Search & Filter**: Advanced query and pagination
-* 🛠️ **Admin Tools:** Dashboard with platform stats, user moderation, and flag verification
-* 📖 **Swagger Docs**: Auto-generated API docs
+- 🔐 **Authentication**: JWT-based, email verification, password reset
+- 👥 **User Roles**: Students, Companies, Admins
+- 📄 **Internship Management**: Post, search, apply, and track status
+- 📬 **Email Notifications**: Verification, welcome, password-reset, contact, and application emails; Resend API delivery with SMTP fallback
+- 📁 **File Upload**: CV/document support
+- 🗄️ **Supabase Storage**: Authenticated backend uploads with public file URLs saved alongside profiles and records
+- 🔍 **Search & Filter**: Advanced query and pagination
+- 🛠️ **Admin Tools:** Dashboard with platform stats, user moderation, and flag verification
+- 🚩 **User Reports**: Students and companies can report companies; companies can report students
+- 📖 **Swagger Docs**: Auto-generated API docs
 
 ## 🛠 Tech Stack
 
-* **Java 17**, **Spring Boot 3.4.4**, **Spring Security**, **PostgreSQL**
-* **JWT**, **BCrypt**, **JJWT**, **Lombok**, **MapStruct**
-* **SpringDoc OpenAPI**, **Thymeleaf**, **Spring Mail**
+- **Java 17**, **Spring Boot 3.4.4**, **Spring Security**, **PostgreSQL**
+- **JWT**, **BCrypt**, **JJWT**, **Lombok**, **MapStruct**
+- **SpringDoc OpenAPI**, **Thymeleaf**, **Spring Mail**
 
 ## ⚙️ Setup
 
 ### Prerequisites
 
-* **Java 17+**
-* **Docker & Docker Compose**
-* **Maven** (or use included wrapper)
+- **Java 17+**
+- **Docker & Docker Compose**
+- **Maven** (or use included wrapper)
 
 ### Quick Start
 
@@ -54,11 +55,19 @@ DATABASE_PASSWORD=your-secure-password
 JWT_SECRET=your-256-bit-secret-here
 
 # Email Configuration
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
 MAIL_USERNAME=your-email@gmail.com
 MAIL_PASSWORD=your-app-password
+RESEND_API_KEY=re_your_api_key
+MAIL_FROM=InternHub <no-reply@yourdomain.com>
 
 # Frontend URL
 FRONTEND_URL=http://localhost:3000
+
+# Application host
+PORT=8080
+SPRING_ACTIVE_PROFILE=dev
 ```
 
 4. **Start database services:**
@@ -74,35 +83,38 @@ docker-compose up -d
 ```
 
 6. **Access services:**
-
-   * Backend API: `http://localhost:8080`
-   * Database Admin (Adminer): `http://localhost:8888`
-   * Swagger UI: `http://localhost:8080/swagger-ui.html`
+   - Backend API: `http://localhost:8080`
+   - Database Admin (Adminer): `http://localhost:8888`
+   - Swagger UI: `http://localhost:8080/swagger-ui.html`
 
 ### Environment Variables
 
-| Variable            | Description                  | Default                                     |
-| ------------------- | ---------------------------- | ------------------------------------------- |
-| `DATABASE_URL`      | PostgreSQL connection URL    | `jdbc:postgresql://localhost:5432/postgres` |
-| `DATABASE_USERNAME` | Database username            | `postgres`                                  |
-| `DATABASE_PASSWORD` | Database password            | `changemeinprod!`                           |
-| `JPA_DDL_AUTO`       | Hibernate schema behavior    | `update`                                    |
-| `JWT_SECRET`        | JWT signing secret (256-bit) | Required for production                     |
-| `MAIL_HOST`         | SMTP server host             | `smtp.gmail.com`                            |
-| `MAIL_PORT`         | SMTP server port             | `587`                                       |
-| `MAIL_USERNAME`     | Email username               | Required                                    |
-| `MAIL_PASSWORD`     | Email app password           | Required                                    |
-| `FRONTEND_URL`      | Frontend application URL     | `http://localhost:3000`                     |
-| `SUPABASE_URL`      | Supabase project URL         | Required for storage                         |
-| `SUPABASE_KEY`      | Supabase secret API key      | Required for storage; server only            |
+| Variable                | Description                  | Default                                               |
+| ----------------------- | ---------------------------- | ----------------------------------------------------- |
+| `DATABASE_URL`          | PostgreSQL connection URL    | `jdbc:postgresql://localhost:5432/postgres`           |
+| `DATABASE_USERNAME`     | Database username            | `postgres`                                            |
+| `DATABASE_PASSWORD`     | Database password            | `changemeinprod!`                                     |
+| `JPA_DDL_AUTO`          | Hibernate schema behavior    | `update`                                              |
+| `JWT_SECRET`            | JWT signing secret (256-bit) | Required for production                               |
+| `MAIL_HOST`             | SMTP server host             | `smtp.gmail.com`                                      |
+| `MAIL_PORT`             | SMTP server port             | `587`                                                 |
+| `MAIL_USERNAME`         | Email username               | Required                                              |
+| `MAIL_PASSWORD`         | Email app password           | Required                                              |
+| `RESEND_API_KEY`        | Resend API key               | Optional; Resend is used when set, with SMTP fallback |
+| `MAIL_FROM`             | Sender address/name          | Falls back to `MAIL_USERNAME`                         |
+| `FRONTEND_URL`          | Frontend application URL     | `http://localhost:3000`                               |
+| `SUPABASE_URL`          | Supabase project URL         | Required for storage                                  |
+| `SUPABASE_KEY`          | Supabase secret API key      | Required for storage; server only                     |
+| `PORT`                  | HTTP port supplied by host   | `8080`                                                |
+| `SPRING_ACTIVE_PROFILE` | Spring profile               | `dev`                                                 |
 
 ### Database Access via Adminer
 
-* URL: `http://localhost:8888`
-* System: PostgreSQL
-* Server: `db`
-* Username: `postgres`
-* Password: Use your `DATABASE_PASSWORD` from `.env`
+- URL: `http://localhost:8888`
+- System: PostgreSQL
+- Server: `db`
+- Username: `postgres`
+- Password: Use your `DATABASE_PASSWORD` from `.env`
 
 ## 🔧 Configuration
 
@@ -111,6 +123,18 @@ docker-compose up -d
 1. Enable 2-Factor Authentication on your Gmail account
 2. Generate an App Password: Google Account → Security → App passwords
 3. Use the app password as `MAIL_PASSWORD` in your `.env` file
+
+### Email Setup (Resend)
+
+Set `RESEND_API_KEY` and `MAIL_FROM` in the backend environment. When a Resend key is configured, the backend sends email through the Resend API first; if that request fails, it attempts SMTP using `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, and `MAIL_PASSWORD`. Without a Resend key, SMTP is used directly. Configure a sender address verified with Resend for production. `MAIL_FROM` defaults to `MAIL_USERNAME`.
+
+The contact form sends to the configured sender address and sets the submitter's email as the reply-to address. Account verification, welcome, password-reset, and application notification emails use the configured mail transport.
+
+For deployment platforms that provide the listening port, set `PORT` to the platform's value. `SPRING_ACTIVE_PROFILE` selects the Spring profile and defaults to `dev`.
+
+### Company reporting
+
+Authenticated students and companies can submit reports against a company at `POST /api/v1/flagged-companies`. Companies can also report students at `POST /api/v1/flagged-students`. Company reports record the reporting account (student or company); a company cannot report itself. Report review, warning, history, overview, and count endpoints are available under `/api/v1/flagged-companies` and `/api/v1/flagged-students` for authenticated moderation workflows.
 
 ### Supabase Storage
 
@@ -132,8 +156,8 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 
 ## 🌐 API Documentation
 
-* **Swagger UI**: `http://localhost:8080/swagger-ui.html`
-* **OpenAPI JSON**: `http://localhost:8080/v3/api-docs`
+- **Swagger UI**: `http://localhost:8080/swagger-ui.html`
+- **OpenAPI JSON**: `http://localhost:8080/v3/api-docs`
 
 ## 🤝 Contributing
 
@@ -146,4 +170,3 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 ## 📝 License
 
 MIT License - see `LICENSE` file for details
-
