@@ -154,7 +154,6 @@ public class ApplicationServiceImpl implements ApplicationService {
         if (application.getStatus().equals(ApplicationStatus.ACCEPTED)) {
             throw new BadRequestException("Application is already accepted");
         }
-
         if (application.getStatus().equals(ApplicationStatus.REJECTED)) {
             throw new BadRequestException("Application is already rejected");
         }
@@ -176,10 +175,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     public void rejectApplication(UUID id, NotificationRequest request) {
         Application application = applicationRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Application not found with id: " + id));
-
-        if (application.getStatus().equals(ApplicationStatus.ACCEPTED)) {
-            throw new BadRequestException("Application is already accepted");
-        }
 
         if (application.getStatus().equals(ApplicationStatus.REJECTED)) {
             throw new BadRequestException("Application is already rejected");

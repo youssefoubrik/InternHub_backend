@@ -2,6 +2,7 @@ package ma.ensa.internHub.services.impl;
 
 import java.util.List;
 import java.util.UUID;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.springframework.stereotype.Service;
 
@@ -102,13 +103,22 @@ public class CompanyFlagServiceImpl implements CompanyFlagService {
 
     @Override
     public void createCompanyFlag(CreateFlagRequest request) {
-        Student flaggingStudent = authUtils.getCurrentStudent();
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean isCompany = authentication.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_COMPANY"));
+        Student flaggingStudent = isCompany ? null : authUtils.getCurrentStudent();
+        Company flaggingCompany = isCompany ? authUtils.getCurrentCompany() : null;
         Company flaggedCompany = companyRepository.findById(request.getTargetId())
                 .orElseThrow(() -> new EntityNotFoundException("Company not found with id: " + request.getTargetId()));
+
+        if (flaggingCompany != null && flaggingCompany.getId().equals(flaggedCompany.getId())) {
+            throw new BadRequestException("A company cannot flag itself");
+        }
 
         CompanyFlag companyFlag = CompanyFlag.builder()
                 .flaggedCompany(flaggedCompany)
                 .flaggedByStudent(flaggingStudent)
+                .flaggedByCompany(flaggingCompany)
                 .reason(request.getReason())
                 .description(request.getDescription())
                 .screenshots(request.getScreenshots())

@@ -107,7 +107,8 @@ public class SecurityConfig {
                         .hasRole(Role.COMPANY.name())
 
                         // Flag endpoints
-                        .requestMatchers(HttpMethod.POST, "/api/v1/flagged-companies").hasRole(Role.STUDENT.name())
+                        .requestMatchers(HttpMethod.POST, "/api/v1/flagged-companies")
+                        .hasAnyRole(Role.STUDENT.name(), Role.COMPANY.name())
                         .requestMatchers(HttpMethod.POST, "/api/v1/flagged-students").hasRole(Role.COMPANY.name())
 
                         // Ensure all other endpoints require authentication

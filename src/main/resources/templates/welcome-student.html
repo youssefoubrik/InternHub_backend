@@ -1,33 +1,68 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to InternHub</title>
-</head>
-<body style="background-color: white; margin: 0; font-family: sans-serif;">
-  <div style="max-width: 32rem; margin: 0 auto; background-color: white;">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to InternHub</title>
+  </head>
+  <body style="background-color: white; margin: 0; font-family: sans-serif">
+    <div style="max-width: 32rem; margin: 0 auto; background-color: white">
+      <div style="text-align: center">
+        <img
+          src="https://exnyabuorfcuxbecztkz.supabase.co/storage/v1/object/public/images/logo.png"
+          alt="InternHub Logo"
+          style="height: 5rem; display: block; margin: 0 auto"
+        />
+      </div>
 
-    <div style="text-align: center;">
-      <img src="../static/logo.png" alt="InternHub Logo" style="height: 5rem; display: block; margin: 0 auto;" />
+      <div
+        style="
+          color: #ff5a31;
+          text-align: center;
+          padding: 1rem;
+          font-size: 1.25rem;
+          font-weight: 600;
+          border-radius: 0.5rem;
+        "
+      >
+        Welcome to InternHub!
+      </div>
+
+      <div style="margin-top: 1.5rem; color: #374151; font-size: 1rem">
+        <p>Dear <strong th:text="${studentName}">Student Name</strong>,</p>
+        <p style="margin-top: 0.5rem">
+          Thank you for signing up for
+          <strong style="color: #ff8566">InternHub</strong>, the platform that
+          connects Moroccan students like you with top companies offering
+          internship opportunities.
+        </p>
+        <p style="margin-top: 0.5rem">
+          We’re excited to support your professional journey and help you find
+          meaningful experiences that align with your goals.
+        </p>
+        <p style="margin-top: 0.5rem">
+          Start exploring internships and building your future today!
+        </p>
+        <p style="margin-top: 0.5rem">
+          If you need any assistance, feel free to contact us at
+          <a
+            href="mailto:internhub@gmail.com"
+            style="color: #3b82f6; text-decoration: none"
+            >internhub@gmail.com</a
+          >.
+        </p>
+      </div>
+
+      <div
+        style="
+          text-align: center;
+          margin-top: 1.5rem;
+          font-size: 0.875rem;
+          color: #6b7280;
+        "
+      >
+        &copy; 2025 InternHub. All rights reserved.
+      </div>
     </div>
-
-    <div style="color: #ff5a31; text-align: center; padding: 1rem; font-size: 1.25rem; font-weight: 600; border-radius: 0.5rem;">
-      Welcome to InternHub!
-    </div>
-
-    <div style="margin-top: 1.5rem; color: #374151; font-size: 1rem;">
-      <p>Dear <strong th:text="${studentName}">Student Name</strong>,</p>
-      <p style="margin-top: 0.5rem;">Thank you for signing up for <strong style="color: #ff8566;">InternHub</strong>, the platform that connects Moroccan students like you with top companies offering internship opportunities.</p>
-      <p style="margin-top: 0.5rem;">We’re excited to support your professional journey and help you find meaningful experiences that align with your goals.</p>
-      <p style="margin-top: 0.5rem;">Start exploring internships and building your future today!</p>
-      <p style="margin-top: 0.5rem;">If you need any assistance, feel free to contact us at <a href="mailto:internhub@gmail.com" style="color: #3b82f6; text-decoration: none;">internhub@gmail.com</a>.</p>
-    </div>
-
-    <div style="text-align: center; margin-top: 1.5rem; font-size: 0.875rem; color: #6b7280;">
-      &copy; 2025 InternHub. All rights reserved.
-    </div>
-
-  </div>
-</body>
+  </body>
 </html>
