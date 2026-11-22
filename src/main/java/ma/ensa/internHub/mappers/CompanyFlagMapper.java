@@ -15,6 +15,8 @@ public interface CompanyFlagMapper {
     @Mapping(target = "studentEmail", source = "flaggedByStudent.email")
     @Mapping(target = "studentFirstName", source = "flaggedByStudent.firstName")
     @Mapping(target = "studentLastName", source = "flaggedByStudent.lastName")
+    @Mapping(target = "reporterCompanyId", source = "flaggedByCompany.id")
+    @Mapping(target = "reporterCompanyName", source = "flaggedByCompany.name")
 
     CompanyFlagResponse toResponse(CompanyFlag company);
 }

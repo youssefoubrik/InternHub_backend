@@ -27,6 +27,9 @@ public class CompanyFlag extends AbstractFlag {
 
     @ManyToOne
     @JoinColumn(name = "flagged_by_student_id")
-    @NotNull(message = "flagged by student cannot be null")
     private Student flaggedByStudent;
+
+    @ManyToOne
+    @JoinColumn(name = "flagged_by_company_id")
+    private Company flaggedByCompany;
 }

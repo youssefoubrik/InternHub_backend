@@ -1,39 +1,80 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Confirm Your Email - InternHub</title>
-</head>
-<body style="background-color: white; margin: 0; font-family: sans-serif;">
-  <div style="max-width: 32rem; margin: 0 auto; background-color: white;">
-
-    <div style="text-align: center;">
-      <img src="" alt="InternHub Logo" style="height: 5rem; display: block; margin: 0 auto;" />
-    </div>
-
-    <strong style="text-align: center; padding: 1rem; font-size: 1.25rem; font-weight: 600; border-radius: 0.5rem;">
-      Confirm Your Email Address
-    </strong>
-
-    <div style="margin-top: 1.5rem; color: #374151; font-size: 1rem;">
-      <p>Hello <strong th:text="${userName}"></strong>,</p>
-      <p style="margin-top: 0.5rem;">Thank you for registering with <strong style="color: #ff8566;">InternHub</strong>. To complete your registration, please use the confirmation code below:</p>
-      
-      <div style="margin: 1.5rem auto; text-align: center; padding: 1rem; background-color: #f3f4f6; border-radius: 0.5rem; width: 60%;">
-        <span style="font-size: 1.5rem; font-weight: bold;color: #1f2937;" th:text="${confirmationCode}">x4Wl09</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirm Your Email - InternHub</title>
+  </head>
+  <body style="background-color: white; margin: 0; font-family: sans-serif">
+    <div style="max-width: 32rem; margin: 0 auto; background-color: white">
+      <div style="text-align: center">
+        <img
+          src="https://exnyabuorfcuxbecztkz.supabase.co/storage/v1/object/public/images/logo.png"
+          alt="InternHub Logo"
+          style="height: 5rem; display: block; margin: 0 auto"
+        />
       </div>
-      
-    <p style="font-size: 0.95rem; color: #ff8566;">
-      Please note: This confirmation code will expire in 3 minutes.
-    </p>
-      <p style="margin-top: 0.5rem;">If you need any assistance, feel free to contact us at <a href="mailto:internhub@gmail.com" style="color: #3b82f6; text-decoration: none;">internhub@gmail.com</a>.</p>
-    </div>
 
-    <div style="text-align: center; margin-top: 1.5rem; font-size: 0.875rem; color: #6b7280;">
-      &copy; 2025 InternHub. All rights reserved.
-    </div>
+      <strong
+        style="
+          text-align: center;
+          padding: 1rem;
+          font-size: 1.25rem;
+          font-weight: 600;
+          border-radius: 0.5rem;
+        "
+      >
+        Confirm Your Email Address
+      </strong>
 
-  </div>
-</body>
+      <div style="margin-top: 1.5rem; color: #374151; font-size: 1rem">
+        <p>Hello <strong th:text="${userName}"></strong>,</p>
+        <p style="margin-top: 0.5rem">
+          Thank you for registering with
+          <strong style="color: #ff8566">InternHub</strong>. To complete your
+          registration, please use the confirmation code below:
+        </p>
+
+        <div
+          style="
+            margin: 1.5rem auto;
+            text-align: center;
+            padding: 1rem;
+            background-color: #f3f4f6;
+            border-radius: 0.5rem;
+            width: 60%;
+          "
+        >
+          <span
+            style="font-size: 1.5rem; font-weight: bold; color: #1f2937"
+            th:text="${confirmationCode}"
+            >x4Wl09</span
+          >
+        </div>
+
+        <p style="font-size: 0.95rem; color: #ff8566">
+          Please note: This confirmation code will expire in 3 minutes.
+        </p>
+        <p style="margin-top: 0.5rem">
+          If you need any assistance, feel free to contact us at
+          <a
+            href="mailto:internhub@gmail.com"
+            style="color: #3b82f6; text-decoration: none"
+            >internhub@gmail.com</a
+          >.
+        </p>
+      </div>
+
+      <div
+        style="
+          text-align: center;
+          margin-top: 1.5rem;
+          font-size: 0.875rem;
+          color: #6b7280;
+        "
+      >
+        &copy; 2025 InternHub. All rights reserved.
+      </div>
+    </div>
+  </body>
 </html>

@@ -9,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,8 +35,7 @@ public class Experience {
     @ValidDate(message = "End date must be in MMM-yyyy format or 'PRESENT'")
     private String endDate;
 
-    @Column(columnDefinition = "TEXT", length = 1000)
-    @Size(min = 50, max = 1000, message = "Description must be between 25 and 1000 characters")
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @NotBlank(message = "Company name is required")

@@ -49,4 +49,6 @@ public class InternshipResponse {
 
     private boolean paid;
 
+    private boolean closed;
+
 }

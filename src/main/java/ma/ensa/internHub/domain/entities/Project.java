@@ -23,10 +23,8 @@ public class Project {
     @NotBlank(message = "Title is required")
     private String title;
 
-    @NotBlank(message = "Image is required")
     private String image;
 
-    @NotBlank(message = "Link is required")
     private String link;
 
     @ManyToOne

@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +23,9 @@ import ma.ensa.internHub.domain.enums.ApplicationStatus;
 
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(
+        name = "uk_application_student_internship",
+        columnNames = { "student_id", "internship_id" }))
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

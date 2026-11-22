@@ -27,7 +27,7 @@ public class CompanyRequest extends UserRequest {
     @Size(min = 10, max = 10000, message = "Description must be between 10 and 10000 characters")
     private String description;
 
-    @Pattern(regexp = "^\\d{15}$", message = "ICE must be exactly 15 digits")
+    @Pattern(regexp = "^(?:\\s*|\\d{15})$", message = "ICE must be exactly 15 digits")
     private String ice;
 
     private MapLocation location;

@@ -124,6 +124,25 @@ public class InternshipServiceImpl implements InternshipService {
     }
 
     @Override
+    @Transactional
+    public InternshipResponse setInternshipClosed(UUID id, boolean closed) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Internship internship = internshipRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Internship not found with id: " + id));
+
+        if (authentication == null || !internship.getCompany().getEmail().equals(authentication.getName())) {
+            throw new org.springframework.security.access.AccessDeniedException(
+                    "Only the company that posted this internship can change its status");
+        }
+
+        internship.setClosed(closed);
+        Internship savedInternship = internshipRepository.save(internship);
+        InternshipResponse response = internshipMapper.toResponse(savedInternship);
+        response.setCompany(companyMapper.toResponse(savedInternship.getCompany()));
+        return response;
+    }
+
+    @Override
     public Page<InternshipResponse> searchInternships(String title, String city, List<InternshipType> types,
             List<WorkMode> workModes, String paid, Pageable pageable) {
 

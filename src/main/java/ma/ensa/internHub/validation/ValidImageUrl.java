@@ -16,7 +16,7 @@ import jakarta.validation.Payload;
 public @interface ValidImageUrl {
     String message() default "Invalid image URL format. Must end with .jpg, .jpeg, .png";
 
-    String[] allowedExtensions() default { ".jpg", ".jpeg", ".png" };
+    String[] allowedExtensions() default { ".jpg", ".jpeg", ".png", ".webp", ".gif" };
 
     Class<?>[] groups() default {};
 

@@ -62,6 +62,8 @@ public class Internship extends BaseEntity {
 
     private boolean paid;
 
+    private boolean closed;
+
     @NotNull(message = "City is required")
     private String city;
 

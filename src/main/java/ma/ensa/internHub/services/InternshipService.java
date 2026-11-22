@@ -47,4 +47,6 @@ public interface InternshipService {
     List<InternshipResponse> getInternshipsByCompanyId(UUID companyId);
 
     void deleteInternship(UUID id);
+
+    InternshipResponse setInternshipClosed(UUID id, boolean closed);
 }
